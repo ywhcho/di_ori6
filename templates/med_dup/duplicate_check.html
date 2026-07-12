@@ -122,15 +122,22 @@
             </nav>
           {% endif %}
 
-          <!-- 중복성분보기 버튼 -->
-          <div class="text-center mt-3">
-            <form method="post">
-              {% csrf_token %}
-              <input type="hidden" name="action" value="compare">
-              <button type="submit" class="btn btn-danger btn-lg w-100">
-                <i class="bi bi-search-heart"></i> 중복성분보기
-              </button>
-            </form>
+          <!-- 중복성분보기/상호작용보기 버튼 -->
+          <div class="row g-2 mt-3">
+            <div class="col-md-6">
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="compare">
+                <button type="submit" class="btn btn-danger btn-lg w-100">
+                  <i class="bi bi-search-heart"></i> 중복성분보기
+                </button>
+              </form>
+            </div>
+            <div class="col-md-6">
+              <a href="{% url 'med_dup:interaction_popup' %}" target="_blank" rel="noopener noreferrer" class="btn btn-warning btn-lg w-100">
+                <i class="bi bi-shield-exclamation"></i> 상호작용보기
+              </a>
+            </div>
           </div>
         {% else %}
           <div class="text-muted text-center py-4">

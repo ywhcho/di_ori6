@@ -1,5 +1,6 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
+from med_interaction.views import check_interactions
 from medicines.models import DrugInfo, Medicine
 import re
 
@@ -68,6 +69,17 @@ def duplicate_check(request):
         'comparison_result': comparison_result,
     }
     return render(request, 'med_dup/duplicate_check.html', context)
+
+
+def interaction_popup(request):
+    """중복성분 화면에서 선택한 약품으로 상호작용 결과 팝업 표시"""
+    selected = request.session.get('selected_medicines', [])
+    interaction_result = check_interactions(selected, '')
+    context = {
+        'selected': selected,
+        'interaction_result': interaction_result,
+    }
+    return render(request, 'med_dup/interaction_popup.html', context)
 
 
 def _get_detail_pks_by_name(medicine_names):
