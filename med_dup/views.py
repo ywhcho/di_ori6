@@ -1,8 +1,10 @@
+import re
+
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from med_interaction.views import check_interactions
+
+from med_interaction.services import check_interactions
 from medicines.models import DrugInfo, Medicine
-import re
 
 MASS_UNIT_FACTORS_TO_MCG = {
     'kg': 1_000_000_000,
@@ -10,6 +12,7 @@ MASS_UNIT_FACTORS_TO_MCG = {
     'mg': 1_000,
     'mcg': 1,
 }
+DEFAULT_RISK_FILTER = ''
 
 
 def duplicate_check(request):
@@ -74,7 +77,7 @@ def duplicate_check(request):
 def interaction_popup(request):
     """중복성분 화면에서 선택한 약품으로 상호작용 결과 팝업 표시"""
     selected = request.session.get('selected_medicines', [])
-    interaction_result = check_interactions(selected, '')
+    interaction_result = check_interactions(selected, DEFAULT_RISK_FILTER)
     context = {
         'selected': selected,
         'interaction_result': interaction_result,
