@@ -54,8 +54,8 @@
       </div>
       {% for group in interaction_result.interaction_groups %}
         <div class="card shadow-sm mb-4">
-          <div class="card-header bg-warning">  <!--danger text-white"> -->
-            <h5 class="mb-0">〈 상호작용 : {{ group.risk }} 등급 〉 &lt; 코드-A: {{ group.igrno_a }} , 코드-B: {{ group.igrno_b }} &gt;</h5>
+          <div class="card-header bg-warning">
+            <h5 class="mb-0">〈 상호작용 : {{ group.risk }} 등급 〉 &nbsp; 코드-A: {{ group.igrno_a_codes|join:", " }} &nbsp;/&nbsp; 코드-B: {{ group.igrno_b_codes|join:", " }}</h5>
           </div>
           <div class="card-body">
             <div class="table-responsive">
