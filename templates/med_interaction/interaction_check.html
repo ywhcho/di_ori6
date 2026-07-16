@@ -185,7 +185,10 @@
         {% for group in interaction_result.interaction_groups %}
           <div class="card shadow-sm mb-4">
             <div class="card-header bg-danger text-white">
-              <h5 class="mb-0">&lt; 상호작용 : {{ group.risk }} 등급 &gt;</h5>
+              <h5 class="mb-0">
+                &lt; 상호작용 : {{ group.risk }} 등급 &gt;
+                &nbsp;&nbsp; A코드: {{ group.igrno_a_codes|join:", " }} &nbsp;/&nbsp; B코드: {{ group.igrno_b_codes|join:", " }}
+              </h5>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -193,9 +196,7 @@
                   <thead class="table-danger">
                     <tr>
                       <th>A 약품</th>
-                      <th>A 코드</th>
                       <th>B 약품</th>
-                      <th>B 코드</th>
                       <th>위험도</th>
                       <th>상호작용 유형</th>
                       <th>대처 방법</th>
@@ -205,9 +206,7 @@
                     {% for row in group.rows %}
                       <tr>
                         <td>{{ row.medicine_a }}</td>
-                        <td>{{ row.igrno_a }}</td>
                         <td>{{ row.medicine_b }}</td>
-                        <td>{{ row.igrno_b }}</td>
                         <td><strong>{{ row.irisk }}</strong></td>
                         <td>{{ row.idesc }}</td>
                         <td>{{ row.ireco }}</td>

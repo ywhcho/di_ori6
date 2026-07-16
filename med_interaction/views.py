@@ -219,11 +219,25 @@ def check_interactions(selected_names, risk_filter=''):
     for risk_code in RISK_GROUP_ORDER:
         rows = [row for row in interaction_rows if row['risk_group'] == risk_code]
         if rows:
-            interaction_groups.append({'risk': risk_code, 'rows': rows})
+            igrno_a_codes = sorted({row['igrno_a'] for row in rows})
+            igrno_b_codes = sorted({row['igrno_b'] for row in rows})
+            interaction_groups.append({
+                'risk': risk_code,
+                'rows': rows,
+                'igrno_a_codes': igrno_a_codes,
+                'igrno_b_codes': igrno_b_codes,
+            })
 
     other_rows = [row for row in interaction_rows if row['risk_group'] == '기타']
     if other_rows:
-        interaction_groups.append({'risk': '기타', 'rows': other_rows})
+        igrno_a_codes = sorted({row['igrno_a'] for row in other_rows})
+        igrno_b_codes = sorted({row['igrno_b'] for row in other_rows})
+        interaction_groups.append({
+            'risk': '기타',
+            'rows': other_rows,
+            'igrno_a_codes': igrno_a_codes,
+            'igrno_b_codes': igrno_b_codes,
+        })
 
     return {
         'medicine_components': medicine_components,
