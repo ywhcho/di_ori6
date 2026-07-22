@@ -11,6 +11,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='medicine',
             name='ypri24',
-            field=models.BigIntegerField(blank=True, default=0, null=True, verbose_name='연생산액'),
+            field=models.BigIntegerField(blank=True, default=0, verbose_name='연생산액'),
         ),
     ]
