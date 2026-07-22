@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
+from django.db.models import Sum
 from .models import DrugInfo
 from .models import Medicine
 
@@ -26,6 +27,8 @@ def druginfo_list(request):
         filter_field = field_map[search_field][0]
         medicines = medicines.filter(**{f'{filter_field}__icontains': search_q})
 
+    ypri24_total = medicines.aggregate(total=Sum('ypri24'))['total'] or 0
+
     paginator = Paginator(medicines, 10)
     page_number = request.GET.get('page', 1) if search_q else 1
     page_obj = paginator.get_page(page_number)
@@ -37,6 +40,7 @@ def druginfo_list(request):
         'search_field': search_field,
         'search_field_label': field_map[search_field][1],
         'search_q': search_q,
+        'ypri24_total': ypri24_total,
     }
     return render(request, 'medicines/druginfo_list.html', context)
 

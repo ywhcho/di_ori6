@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block title %}의약정보 보기{% endblock %}
 {% block content %}
 <h2 class="mb-4"><i class="bi bi-journal-medical text-primary"></i> 의약정보 보기</h2>
@@ -32,21 +33,13 @@
 <div class="table-responsive">
   <table class="table table-hover table-bordered">
     <thead class="table-dark">
-	<!--
-        <colgroup>
-	  <col style="width:10%">
-	  <col style="width:25%">
-	  <col style="width:15%">
-	  <col style="width:25%">
-	  <col style="width:20%">
-	</colgroup>
-	-->
       <tr>
-        <th style="width:10%;">#</th>
-        <th style="width:25%;">약품명</th>
-        <th style="width:15%;">성분명</th>
-        <th style="width:30%;">효능</th>
-        <th style="width:20%;">회사명</th>
+        <th style="width:8%;">#</th>
+        <th style="width:22%;">약품명</th>
+        <th style="width:13%;">성분명</th>
+        <th style="width:27%;">효능</th>
+        <th style="width:15%;">회사명</th>
+        <th style="width:15%; text-align:right;">연생산액 합계<br>{{ ypri24_total|intcomma }}</th>
       </tr>
     </thead>
     <tbody>
@@ -63,9 +56,10 @@
           <td>{{ drug.ingr_t}}</td>
           <td>{{ drug.ee|truncatechars:50 }}</td>
           <td>{{ drug.company }}</td>
+          <td style="text-align:right;">{{ drug.ypri24|default:0|intcomma }}</td>
         </tr>
       {% empty %}
-        <tr><td colspan="5" class="text-center text-muted py-4">검색 결과가 없습니다.</td></tr>
+        <tr><td colspan="6" class="text-center text-muted py-4">검색 결과가 없습니다.</td></tr>
       {% endfor %}
     </tbody>
   </table>
