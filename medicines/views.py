@@ -29,6 +29,17 @@ def druginfo_list(request):
 
     ypri24_total = medicines.aggregate(total=Sum('ypri24'))['total'] or 0
 
+    # 정렬 처리: ypri24는 내림차순, 나머지는 오름차순
+    sort_options = {
+        'htname': 'htname',
+        'ingr_t': 'ingr_t',
+        'company': 'company',
+        'ypri24': '-ypri24',
+    }
+    sort = request.GET.get('sort', '').strip()
+    if sort in sort_options:
+        medicines = medicines.order_by(sort_options[sort])
+
     paginator = Paginator(medicines, 10)
     page_number = request.GET.get('page', 1) if search_q else 1
     page_obj = paginator.get_page(page_number)
@@ -41,6 +52,7 @@ def druginfo_list(request):
         'search_field_label': field_map[search_field][1],
         'search_q': search_q,
         'ypri24_total': ypri24_total,
+        'sort': sort,
     }
     return render(request, 'medicines/druginfo_list.html', context)
 

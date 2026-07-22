@@ -28,6 +28,8 @@
     전체 목록
   {% endif %}
   &mdash; 총 {{ page_obj.paginator.count }}개 결과
+  <br>
+  연생산액 합계: <strong>{{ ypri24_total|intcomma }}</strong>
 </div>
 
 <div class="table-responsive">
@@ -35,11 +37,27 @@
     <thead class="table-dark">
       <tr>
         <th style="width:8%;">#</th>
-        <th style="width:22%;">약품명</th>
-        <th style="width:13%;">성분명</th>
+        <th style="width:22%;">
+          <a href="?field={{ search_field|urlencode }}&q={{ search_q|urlencode }}&sort=htname" class="text-white text-decoration-none">
+            약품명{% if sort == 'htname' %} ▲{% endif %}
+          </a>
+        </th>
+        <th style="width:13%;">
+          <a href="?field={{ search_field|urlencode }}&q={{ search_q|urlencode }}&sort=ingr_t" class="text-white text-decoration-none">
+            성분명{% if sort == 'ingr_t' %} ▲{% endif %}
+          </a>
+        </th>
         <th style="width:27%;">효능</th>
-        <th style="width:15%;">회사명</th>
-        <th style="width:15%; text-align:right;">연생산액 합계<br>{{ ypri24_total|intcomma }}</th>
+        <th style="width:15%;">
+          <a href="?field={{ search_field|urlencode }}&q={{ search_q|urlencode }}&sort=company" class="text-white text-decoration-none">
+            회사명{% if sort == 'company' %} ▲{% endif %}
+          </a>
+        </th>
+        <th style="width:15%; text-align:right;">
+          <a href="?field={{ search_field|urlencode }}&q={{ search_q|urlencode }}&sort=ypri24" class="text-white text-decoration-none">
+            연생산액{% if sort == 'ypri24' %} ▼{% endif %}
+          </a>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -56,7 +74,9 @@
           <td>{{ drug.ingr_t}}</td>
           <td>{{ drug.ee|truncatechars:50 }}</td>
           <td>{{ drug.company }}</td>
-          <td style="text-align:right;">{{ drug.ypri24|intcomma }}</td>
+          <td style="text-align:right;">
+            {% if drug.ypri24 %}{{ drug.ypri24|intcomma }}{% else %}-{% endif %}
+          </td>
         </tr>
       {% empty %}
         <tr><td colspan="6" class="text-center text-muted py-4">검색 결과가 없습니다.</td></tr>
@@ -71,17 +91,17 @@
     <ul class="pagination justify-content-center">
       {% if page_obj.has_previous %}
         <li class="page-item">
-          <a class="page-link" href="?field={{ search_field|urlencode }}&q={{ search_q|urlencode }}&page={{ page_obj.previous_page_number }}">이전</a>
+          <a class="page-link" href="?field={{ search_field|urlencode }}&q={{ search_q|urlencode }}&sort={{ sort|urlencode }}&page={{ page_obj.previous_page_number }}">이전</a>
         </li>
       {% endif %}
       {% for num in page_obj.paginator.page_range %}
         <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-          <a class="page-link" href="?field={{ search_field|urlencode }}&q={{ search_q|urlencode }}&page={{ num }}">{{ num }}</a>
+          <a class="page-link" href="?field={{ search_field|urlencode }}&q={{ search_q|urlencode }}&sort={{ sort|urlencode }}&page={{ num }}">{{ num }}</a>
         </li>
       {% endfor %}
       {% if page_obj.has_next %}
         <li class="page-item">
-          <a class="page-link" href="?field={{ search_field|urlencode }}&q={{ search_q|urlencode }}&page={{ page_obj.next_page_number }}">다음</a>
+          <a class="page-link" href="?field={{ search_field|urlencode }}&q={{ search_q|urlencode }}&sort={{ sort|urlencode }}&page={{ page_obj.next_page_number }}">다음</a>
         </li>
       {% endif %}
     </ul>
