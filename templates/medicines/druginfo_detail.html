@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block title %}{{ drug.htname }} - 의약정보{% endblock %}
 {% block content %}
 <nav aria-label="breadcrumb" class="mb-3">
@@ -17,7 +18,11 @@
     <table class="table table-bordered">
       <tbody>
         <tr>
-          <th class="table-secondary" style="width: 10%;">약품명</th>  <!--150px-->
+          <th class="table-secondary" style="width: 10%;">품목기준코드</th>
+          <td>{{ drug.kfregcd }}{% if drug.canc_date %}(  -사용종료일: {{ drug.canc_date }}){% else %}(-){% endif %}</td>
+        </tr>
+        <tr>
+          <th class="table-secondary">약품명</th>  <!--150px-->
           <td><strong>{{ drug.htname }}</strong></td>
         </tr>
         <tr>
@@ -29,16 +34,20 @@
           <td>{{ drug.company }}</td>
         </tr>
         <tr>
+          <th class="table-secondary">연생산액</th>
+          <td>{% if drug.ypri24 %}{{ drug.ypri24|intcomma }}{% else %}-{% endif %}</td>
+        </tr>
+        <tr>
           <th class="table-secondary">효능</th>
           <td>{{ drug.ee|linebreaksbr }}</td>
         </tr>
         <tr>
           <th class="table-secondary">용량</th>
-          <td>{{ drug.ud|linebreaksbr }}</td>
+          <td>{{ drug.ud_html|safe }}</td>
         </tr>
         <tr>
           <th class="table-secondary">주의사항</th>
-          <td>{{ drug.nb|linebreaksbr }}</td>
+          <td>{{ drug.nb_html|safe }}</td>
         </tr>
       </tbody>
     </table>

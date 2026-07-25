@@ -20,13 +20,16 @@ class Medicine(models.Model):
 
 
 class DrugInfo(models.Model):
-    """의약정보 상세 모델 (htname, ingr_t, ee, ud, nb, company)"""
+    """의약정보 상세 모델 (htname, ingr_t, ee, ud_html, nb_html, company, ypri24, kfregcd, canc_date)"""
+    kfregcd = models.CharField(max_length=50, blank=True, default='', verbose_name='품목기준코드')
+    canc_date = models.CharField(max_length=20, blank=True, default='', verbose_name='사용종료일')
     htname = models.CharField(max_length=200, verbose_name='약품명')
     ingr_t = models.CharField(max_length=1000, verbose_name='성분명')
-    ee = models.TextField(blank=True, verbose_name='효능')
-    ud = models.TextField(blank=True, verbose_name='용량')
-    nb = models.TextField(blank=True, verbose_name='주의사항')
     company = models.CharField(max_length=200, verbose_name='회사명')
+    ypri24 = models.BigIntegerField(null=True, blank=True, verbose_name='연생산액')
+    ee = models.TextField(blank=True, verbose_name='효능')
+    ud_html = models.TextField(blank=True, db_column='ud', verbose_name='용량')
+    nb_html = models.TextField(blank=True, db_column='nb', verbose_name='주의사항')
 
     class Meta:
         verbose_name = '의약정보'
